@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="refresh" content="10"> <!-- reload every 10 s -->
+  <title>Temperature and Humidity Monitor</title>
+  <link rel="stylesheet" href="{% static 'DHT/style.css' %}">
+</head>
+<body>
+  <h1>Temperature and Humidity Monitor</h1>
+
+  {% if latest %}
+  <div class="cards">
+    <div class="card">
+      <span class="label">Temperature</span>
+      <span class="value">{{ latest.temp }} °C</span>
+    </div>
+    <div class="card">
+      <span class="label">Humidity</span>
+      <span class="value">{{ latest.hum }} %</span>
+    </div>
+  </div>
+  <p class="time">Last update: {{ latest.dt|date:"Y-m-d H:i:s" }}</p>
+  {% else %}
+  <p>No data yet.</p>
+  {% endif %}
+
+  <table>
+    <thead>
+      <tr><th>Time</th><th>Temp (°C)</th><th>Humidity (%)</th></tr>
+    </thead>
+    <tbody>
+      {% for r in readings %}
+      <tr>
+        <td>{{ r.dt|date:"Y-m-d H:i:s" }}</td>
+        <td>{{ r.temp }}</td>
+        <td>{{ r.hum }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</body>
+</html>
